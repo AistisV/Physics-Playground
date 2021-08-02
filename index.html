@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="matter.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ac5ab319e7.js" crossorigin="anonymous"></script>
+</head>
+
+<body> 
+
+    <div class="sidebar" style="display:none" id="mySidebar">
+        <div class="tabs">
+            <div class="tab">
+              <input type="checkbox" id="chck1" class="accordion">
+              <label class="tab-label" for="chck1">World Settings</label>
+              <div class="tab-content">
+                <h1 style="margin: 0">Gravity</h1>
+                <h2 style="margin-bottom: 5px;">Strength:</h2>
+                <input type="range" min="1" max="100" value="100" onchange="setGravity('strength', this.value)" style="width: 100%">
+                <h2 style="margin-bottom: 5px;">Horizontal:</h2>
+                <input type="range" min="-1" max="1" value="0" step="0.1" onchange="setGravity('horizontal', this.value)" style="width: 100%">
+                <h2 style="margin-bottom: 5px;">Vertical:</h2>
+                <input type="range" min="-1" max="1" value="1" step="0.1" onchange="setGravity('vertical', this.value)" style="width: 100%">
+                <hr>
+                <!-- <h1 style="margin: 0;">Time</h1>
+                <input type="range" min="-1" max="1" value="1" step="0.1" style="width: 100%"> -->
+            </div>
+            </div>
+            <div class="tab">
+              <input type="checkbox" id="chck2" class="accordion">
+              <label class="tab-label" for="chck2">Add shape</label>
+              <div class="tab-content">
+                
+              </div>
+            </div>
+          </div>
+          <div class="advertisement">Advertisement</div>
+        </div>
+      </div>
+
+    <div class="header">
+        <p style="cursor: pointer; color: white" onclick="changeLvl('back')"><i class="fas fa-arrow-left"></i></p>
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+            <p style="cursor: pointer; margin-right: 1rem; color: white"><i class="fas fa-th"></i></i></p>
+            <h2 id="title" style="font-family: 'Montserrat', sans-serif;""></h2>
+            <p style="cursor: pointer; margin-left: 1rem;color:white" onclick="toggleSidebar()"><i class="fas fa-cog"></i></p>
+        </div>
+        <p style="cursor: pointer; color: white" onclick="changeLvl('front')"><i class="fas fa-arrow-right"></i></p>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src='levelScripts/basketball.js'></script>
+    <script src="levelNameSet.js"></script>
+    <script>
+        function setGravity(part, num) {
+            if (part == "strength") {
+                engine.world.gravity.scale = num / 100000;
+            } else if (part == "horizontal") {
+                engine.world.gravity.x = num;
+            } else {
+                engine.world.gravity.y = num;
+            }
+        }
+    </script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+    <script>
+        function openSidebar() {
+          document.getElementById("mySidebar").style.display = "block";
+        }
+        
+        function closeSidebar() {
+          document.getElementById("mySidebar").style.display = "none";
+        }
+
+        function toggleSidebar(){
+            sidebar = document.getElementById("mySidebar").style.display
+            if(sidebar == "none"){
+                sidebar = "block"
+            } else {
+                sidebar = "none"
+            }
+            document.getElementById("mySidebar").style.display = sidebar
+        }
+        </script>
+</body>
+
+</html>
