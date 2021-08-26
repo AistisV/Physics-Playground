@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ac5ab319e7.js" crossorigin="anonymous"></script>
+    <script>
+        randomColors = ["#4078c0", "#6cc644", "#bd2c00", "#c9510c", "#6e5494"]
+    </script>
 </head>
 
 <body> 
@@ -33,7 +36,17 @@
               <input type="checkbox" id="chck2" class="accordion">
               <label class="tab-label" for="chck2">Add shape</label>
               <div class="tab-content">
-                
+                <h2 style="margin-bottom: 5px;">Size:</h2>
+                <input type="range" min="5" max="150" value="30" style="width: 100%" id="size">
+                <h2 style="margin-bottom: 5px;">Sides:</h2>
+                <input type="range" min="2" max="8" value="4" step="1" style="width: 100%" id="sides">
+                <h2 style="margin-bottom: 5px;">Friction:</h2>
+                <input type="range" min="0" max="1" value="0.1" step="0.1" style="width: 100%" id="friction">
+                <h2 style="margin-bottom: 5px;">Bounciness:</h2>
+                <input type="range" min="0" max="1" value="0.5" step="0.1" style="width: 100%" id="bounciness">
+                <!-- <h2 style="margin-bottom: 5px;">Roundness:</h2>
+                <input type="range" min="0" max="19" value="0" step="1" style="width: 100%" id="roundness"> -->
+                <button onClick="createBody()">Create</button>
               </div>
             </div>
           </div>
@@ -44,15 +57,14 @@
     <div class="header">
         <p style="cursor: pointer; color: white" onclick="changeLvl('back')"><i class="fas fa-arrow-left"></i></p>
         <div style="display: flex; justify-content: space-evenly; align-items: center;">
-            <p style="cursor: pointer; margin-right: 1rem; color: white"><i class="fas fa-th"></i></i></p>
+            <p style="cursor: pointer; margin-right: 1rem; color: white;" title="Reload" onClick="location.reload()"><i class="fas fa-redo"></i></i></i></p>
             <h2 id="title" style="font-family: 'Montserrat', sans-serif;""></h2>
-            <p style="cursor: pointer; margin-left: 1rem;color:white" onclick="toggleSidebar()"><i class="fas fa-cog"></i></p>
+            <p style="cursor: pointer; margin-left: 1rem;color:white" onclick="toggleSidebar()" title="Settings"><i class="fas fa-cog"></i></p>
         </div>
         <p style="cursor: pointer; color: white" onclick="changeLvl('front')"><i class="fas fa-arrow-right"></i></p>
     </div>
     <canvas id="canvas"></canvas>
-    <script src='levelScripts/basketball.js'></script>
-    <script src="levelNameSet.js"></script>
+    <script src="levelSet.js"></script>
     <script>
         function setGravity(part, num) {
             if (part == "strength") {
@@ -62,6 +74,22 @@
             } else {
                 engine.world.gravity.y = num;
             }
+        }
+
+        function createBody(){
+            sides = document.getElementById('sides').value
+            size = document.getElementById('size').value
+            bounciness = document.getElementById('bounciness').value
+            //oundness = document.getElementById('roundness').value
+            friction = document.getElementById('friction').value
+
+            // if(sides<3){
+            //     roundness = 0
+            // }
+
+            body = Bodies.polygon(width/2, height/2, sides, size, {restitution: bounciness, friction: friction})
+            //chamfer: {radius: roundness}, 
+            Composite.add(engine.world, body)
         }
     </script>
     <script>
